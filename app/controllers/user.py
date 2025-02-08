@@ -6,7 +6,7 @@ from main import get_db
 from schemas.user import (UserCreate,
                            User, BadResponse,
                             UserLogin, UserLoginResponse,
-                             UserUpdate, UserPasswordResponse)
+                             UserUpdate, UserPasswordResponse, UserPassword)
 from services import user_services, auth_services
 
 user_router = APIRouter(
@@ -160,6 +160,7 @@ async def update_user_route(
         update_dict["contact_num"] = user_data.get("contact_num", None)
 
         user = user_services.update_user(update_dict, user_id, db)
+        del user['password']
         return JSONResponse(
             status_code=200,
             content={"data": user}
@@ -179,7 +180,7 @@ async def update_user_route(
         400: {"model": BadResponse, "description": "Validation error"},
     },)
 async def update_user_password_route(
-        user: UserUpdate,
+        user: UserPassword,
         db: Session = Depends(get_db),
         user_payload = Depends(auth_services.validate_token)):
     """
@@ -187,16 +188,10 @@ async def update_user_password_route(
     """
     try:
         user_data = user.dict()
-        username = user_data.get("username")
         password = user_data.get("password")
 
-        if user_payload.get("username") != username:
-            return JSONResponse(
-            status_code=200,
-            content={"message": "Unauthorized"}
-        )
 
-        status = user_services.update_user_password(username, password, db)
+        status = user_services.update_user_password(user_payload.get("user_id"), password, db)
         if status:
             return JSONResponse(
                 status_code=200,

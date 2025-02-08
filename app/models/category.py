@@ -33,6 +33,6 @@ class Category(Base):
             "name": self.name,
             "description": self.description,
             "owner": str(self.owner),
-            "created_at": self.created_at,
+            "created_at": str(self.created_at),
             "type": self.type
         }

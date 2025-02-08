@@ -35,6 +35,8 @@ class UserUpdate(BaseModel):
     last_name: str = Field(example = "Ghajada")
     contact_num: str = Field(example = "+91 81867392")
 
+class UserPassword(BaseModel):
+    password : str = Field(example = "new_password")
 
 class UserPasswordResponse(BaseModel):
     message : str = Field(example = "successfully updated password")

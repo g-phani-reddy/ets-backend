@@ -22,10 +22,11 @@ def create_user(user_dict, db: Session):
             contact_num=user_dict.get("contact_num"),
             username=user_dict.get("username"),
             password=encrypted_password)
-        
+        db.add(new_user)
+        db.flush()
+
         status = category_services.\
             create_default_categories(user_id=user_id, db=db)
-        db.add(new_user)
         db.flush()
         db.commit()
         return new_user._repr_dict()
@@ -110,10 +111,10 @@ def update_user(user_dict, user_id, db: Session):
         raise
 
 
-def update_user_password(username, new_passord, db: Session):
+def update_user_password(user_id, new_passord, db: Session):
     try:
         user_details = db.query(User).filter(
-                User.username == username).first()
+                User.user_id == user_id).first()
         if not user_details:
             raise Exception("User not found")
         else:

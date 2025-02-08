@@ -18,6 +18,7 @@ def create_transaction(db, amount, category_id, comment, user_id):
         db.add(transaction)
         db.flush()
         db.commit()
+        return transaction._repr_dict()
     except Exception as exp:
         print(str(exp), "exception occured")
         raise
@@ -91,7 +92,7 @@ def get_transactions(
         transactions = transactions_query.all()
         
         # Convert transactions to a list of dictionaries
-        data = [transaction.repr_dict() for transaction in transactions]
+        data = [transaction._repr_dict() for transaction in transactions]
         
         return data
     except Exception as exp:

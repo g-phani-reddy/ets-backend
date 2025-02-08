@@ -42,13 +42,13 @@ async def create_transaction_route(
 
         amount = transaction_data.get("amount", 0.0)
         comment = transaction_data.get("comment", None)
-        transaction_id = transaction_data.get("transaction_id", None)
+        category_id = transaction_data.get("category_id", None)
 
         new_transaction = transaction_services.create_transaction(
             amount=amount,
             db = db,
             comment=comment,
-            transaction_id=transaction_id,
+            category_id=category_id,
             user_id=user_id
             )
         return JSONResponse(
@@ -168,13 +168,13 @@ def get_transactions_route(
 
         transactions_data = transaction_services.\
             get_transactions(
-                user_id_jwt,
-                start_date,
-                end_date,
-                categories,
-                sort_by,
-                sort_order,
-                db)
+                user_id=user_id_jwt,
+                start_date=start_date,
+                end_date=end_date,
+                categories=categories,
+                sort_by=sort_by,
+                sort_order=sort_order,
+                db=db)
         if transactions_data:
             return JSONResponse(
                 status_code=200,

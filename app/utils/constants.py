@@ -12,7 +12,7 @@ default_category_dict = [{
     "description": "Memories made, tickets paid."
 },
 {
-    "name": "Hosuing Rent",
+    "name": "Housing Rent",
     "description": "Affordable space, priceless comfort."
 },
 {
