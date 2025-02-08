@@ -1,1 +1,10 @@
 .env
+
+__pycache__/
+*.py[cod]
+*.so
+*.pyo
+*.pyd
+
+.coverage
+pytest_cache/
